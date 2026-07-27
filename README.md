@@ -28,7 +28,15 @@ Click [here]() to download from source.
 1. Clean & Transform
 - Assign data type
 - View column statistics
-- Add column: `Patient Full Name`
+- Add column:
+  - `Patient Full Name`
+    ```dax
+    Patient Full Name = 'Hospital ER_Data'[Patient First Name] & " " & 'Hospital ER_Data'[Patient Last Name]
+    ```
+  - `Patient Admin Date`
+    ```dax
+    Patient Admin Date = DATE(YEAR('Hospital ER_Data'[Patient Admission Date]), MONTH('Hospital ER_Data'[Patient Admission Date]), DAY('Hospital ER_Data'[Patient Admission Date]))
+    ```
 - Remove columns: `Patient First Name`, `Patient Last Name`
 - Replace Values: 'M', 'F', 'NC' => 'Male', 'Female', 'Not Confirmed' in `Patient Gender`
 - Add new table: `Data Table` (columns: Date, Month, Year)
