@@ -25,14 +25,28 @@ Click [here]() to download from source.
 
 ## Project Workflow
 
-1. Data Connections
-2. Data Cleaning
-3. Data Modeling
-4. Data Processing
-5. DAX Calculations
-6. Dashboard layout
-7. Charts & Formatting
-8. Insights
+1. Clean & Transform
+- Assign data type
+- View column statistics
+- Add column: `Patient Full Name`
+- Remove columns: `Patient First Name`, `Patient Last Name`
+- Replace Values: 'M', 'F', 'NC' => 'Male', 'Female', 'Not Confirmed' in `Patient Gender`
+- Add new table: `Data Table` (columns: Date, Month, Year)
+    ```dax
+    Date Table = CALENDAR(MIN('Hospital ER_Data'[Patient Admission Date]), MAX('Hospital ER_Data'[Patient Admission Date]))
+    ```
+
+2. Data Modeling
+- New Relationship: Date Table - Hospital ER_Data
+  - Cardonality: one to many (1:*)
+  - Single cross-filter direction: single
+
+5. Data Processing
+6. DAX Calculations
+- No of Patients: Distinct count of patient ID to calculate number of patients 
+8. Dashboard layout
+9. Charts & Formatting
+10. Insights
 
 ------------------------------------------------------
 
