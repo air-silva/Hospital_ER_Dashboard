@@ -102,6 +102,34 @@ Click [here]() to download from source.
       "0-9"
     )
   ```
+  - (col) Waittime Status
+    ```dax
+    Waittime Status = IF('Hospital ER_Data'[Patient Waittime]<=30, "Within Target", "Target Missed")
+    ```
+ - (col) Admission Hour
+    ```dax
+    Admission Hour = HOUR('Hospital ER_Data'[Patient Admin Date])
+    ```
+- (col) Waittime Interval
+  ```dax
+  Waittime Interval = 
+  SWITCH(
+      TRUE(),
+      'Hospital ER_Data'[Admission Hour] < 2, "00-02",
+      'Hospital ER_Data'[Admission Hour] < 4, "03-04",
+      'Hospital ER_Data'[Admission Hour] < 6, "05-06",
+      'Hospital ER_Data'[Admission Hour] < 8, "07-08",
+      'Hospital ER_Data'[Admission Hour] < 10, "09-08",
+      'Hospital ER_Data'[Admission Hour] < 12, "11-12",
+      'Hospital ER_Data'[Admission Hour] < 14, "13-14",
+      'Hospital ER_Data'[Admission Hour] < 16, "15-16",
+      'Hospital ER_Data'[Admission Hour] < 18, "17-18",
+      'Hospital ER_Data'[Admission Hour] < 20, "19-20",
+      'Hospital ER_Data'[Admission Hour] < 22, "21-22",
+      'Hospital ER_Data'[Admission Hour] < 24, "23-24",
+      "Above 24"
+  )
+  ``` 
 8. Dashboard layout
 9. Charts & Formatting
 10. Insights
