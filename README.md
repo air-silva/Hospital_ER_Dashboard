@@ -112,7 +112,7 @@ Click [here]() to download from source.
     ```
  - (col) Admission Hour
     ```dax
-    Admission Hour = HOUR('Hospital ER_Data'[Patient Admin Date])
+    Admission Hour = HOUR('Hospital ER_Data'[Patient Admission Date])
     ```
 - (col) Waittime Interval
   ```dax
@@ -123,7 +123,7 @@ Click [here]() to download from source.
       'Hospital ER_Data'[Admission Hour] < 4, "03-04",
       'Hospital ER_Data'[Admission Hour] < 6, "05-06",
       'Hospital ER_Data'[Admission Hour] < 8, "07-08",
-      'Hospital ER_Data'[Admission Hour] < 10, "09-08",
+      'Hospital ER_Data'[Admission Hour] < 10, "09-10",
       'Hospital ER_Data'[Admission Hour] < 12, "11-12",
       'Hospital ER_Data'[Admission Hour] < 14, "13-14",
       'Hospital ER_Data'[Admission Hour] < 16, "15-16",
