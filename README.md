@@ -1,7 +1,7 @@
 # Hospital Emergency Room Dashboard
 
 ## Overview
-**Business Requirements:** Develop a multi‑view Hospital Emergency Room Dashboard that enables operational monitoring, demographic analysis, performance tracking, and patient‑level review. 
+**Business Requirements:** Develop a Dashboard that enables operational monitoring, demographic analysis, performance tracking, and patient‑level review. 
 
 **Objective:** Provide insights into emergency room performance to enhance operational efficiency through a multi-view dashboard. Dashboard will contain the following:
 - monitor key metrics and trends on a month-by-month basis to identify patterns and areas for improvement
