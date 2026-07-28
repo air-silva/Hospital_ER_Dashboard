@@ -37,7 +37,7 @@ Open [MetaData](MetaData.md) file to view model, tables, columns, measures and t
 ### 2. Data Modelling
 - Relationship: `Date Table` - `Hospital ER_Data`
   - Cardinality: one to many (1:*)
-  - Single cross-filter direction: single
+  - Cross-filter direction: single
 
 ### 3. Dashboard layout
 - Monthly View
