@@ -44,6 +44,10 @@ Click [here]() to download from source.
     Date Table = CALENDAR(MIN('Hospital ER_Data'[Patient Admission Date]), MAX('Hospital ER_Data'[Patient Admission Date]))
     ```
   - Add columns:
+  - Day
+    ```dax
+    Day = FORMAT('Date Table'[Date], "ddd")
+    ```
   - Month
     ```dax
     Month = FORMAT('Date Table'[Date], "mmm") 
