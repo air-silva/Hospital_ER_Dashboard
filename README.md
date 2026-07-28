@@ -25,122 +25,70 @@ Click [here]() to download from source.
 
 ## Project Workflow
 
-1. Clean & Transform
-- Assign data type
+### 1. Clean & Transform
+- Convert data types
 - View column statistics
-- Add columns:
-  - `Patient Full Name`
-    ```dax
-    Patient Full Name = 'Hospital ER_Data'[Patient First Name] & " " & 'Hospital ER_Data'[Patient Last Name]
-    ```
-  - `Patient Admin Date`
-    ```dax
-    Patient Admin Date = DATE(YEAR('Hospital ER_Data'[Patient Admission Date]), MONTH('Hospital ER_Data'[Patient Admission Date]), DAY('Hospital ER_Data'[Patient Admission Date]))
-    ```
-- Remove columns: `Patient First Name`, `Patient Last Name`
-- Replace Values: 'M', 'F', 'NC' => 'Male', 'Female', 'Not Confirmed' in `Patient Gender`
-- Add new table: `Data Table` (columns: Date, Month, Year)
-    ```dax
-    Date Table = CALENDAR(MIN('Hospital ER_Data'[Patient Admission Date]), MAX('Hospital ER_Data'[Patient Admission Date]))
-    ```
-  - Add columns:
-  - Day
-    ```dax
-    Day = FORMAT('Date Table'[Date], "ddd")
-    ```
-  - Month
-    ```dax
-    Month = FORMAT('Date Table'[Date], "mmm") 
-    ```
-  - Year
-    ```dax
-    Year = YEAR('Date Table'[Date])
-    ```
-  - Month Number (for month sorting)
-    ```dax
-    Month Number = MONTH('Date Table'[Date])
-    ```
-  - Month & Year (for filter visual)
-    ```dax
-    Month & Year = 'Date Table'[Month] & " " & 'Date Table'[Year] 
-    ```
-2. Data Modeling
-- New Relationship: Date Table - Hospital ER_Data
-  - Cardonality: one to many (1:*)
+- Add and remove columns
+- Replace Values
+- Add new table (`Date Table`)
+
+Open [MetaData](MetaData.md) file to view model, tables, columns, measures and their DAX expressions. 
+
+### 2. Data Modelling
+- Relationship: `Date Table` - `Hospital ER_Data`
+  - Cardinality: one to many (1:*)
   - Single cross-filter direction: single
 
-5. Data Processing
-6. DAX Calculations
-- No of Patients: Distinct count of patient ID to calculate number of patients
-- Avg Wait Time
-  ```dax
-  Avg Wait Time = FORMAT(AVERAGE('Hospital ER_Data'[Patient Waittime]), "0.0") & " " & "min"
-  ```
-- Satisfaction Score
-  ```dax
-  Satisfaction Score = AVERAGE('Hospital ER_Data'[Patient Satisfaction Score])
-  ```
-- No of Patients Referred
-  ```dax
-  No of Patients Referred = CALCULATE(COUNTROWS('Hospital ER_Data'), 'Hospital ER_Data'[Department Referral] <> "None")
-  ```
-- (Calc column) Admission Status
-  ```dax
-  Admission Status = IF('Hospital ER_Data'[Patient Admission Flag] = TRUE, "Admitted", "Not Admitted")
-  ```
-- (calc column) Age Group
-  ```dax
-  Age Group = 
-  SWITCH(
-      TRUE(), 
-      'Hospital ER_Data'[Patient Age] >= 100, "100+",
-      'Hospital ER_Data'[Patient Age] >= 90, "90-99",
-      'Hospital ER_Data'[Patient Age] >= 80, "80-89",
-      'Hospital ER_Data'[Patient Age] >= 70, "70-79",
-      'Hospital ER_Data'[Patient Age] >= 60, "60-69",
-      'Hospital ER_Data'[Patient Age] >= 50, "50-59",
-      'Hospital ER_Data'[Patient Age] >= 40, "40-49",
-      'Hospital ER_Data'[Patient Age] >= 30, "30-39",
-      'Hospital ER_Data'[Patient Age] >= 20, "20-29",
-      'Hospital ER_Data'[Patient Age] >= 10, "10-19",
-      "0-9"
-    )
-  ```
-  - (col) Waittime Status
-    ```dax
-    Waittime Status = IF('Hospital ER_Data'[Patient Waittime]<=30, "Within Target", "Target Missed")
-    ```
- - (col) Admission Hour
-    ```dax
-    Admission Hour = HOUR('Hospital ER_Data'[Patient Admission Date])
-    ```
-- (col) Waittime Interval
-  ```dax
-  Waittime Interval = 
-  SWITCH(
-      TRUE(),
-      'Hospital ER_Data'[Admission Hour] < 2, "00-02",
-      'Hospital ER_Data'[Admission Hour] < 4, "03-04",
-      'Hospital ER_Data'[Admission Hour] < 6, "05-06",
-      'Hospital ER_Data'[Admission Hour] < 8, "07-08",
-      'Hospital ER_Data'[Admission Hour] < 10, "09-10",
-      'Hospital ER_Data'[Admission Hour] < 12, "11-12",
-      'Hospital ER_Data'[Admission Hour] < 14, "13-14",
-      'Hospital ER_Data'[Admission Hour] < 16, "15-16",
-      'Hospital ER_Data'[Admission Hour] < 18, "17-18",
-      'Hospital ER_Data'[Admission Hour] < 20, "19-20",
-      'Hospital ER_Data'[Admission Hour] < 22, "21-22",
-      'Hospital ER_Data'[Admission Hour] < 24, "23-24",
-      "Above 24"
-  )
-  ``` 
-8. Dashboard layout
-9. Charts & Formatting
-10. Insights
+### 3. Dashboard layout
+- Monthly View
+- Consolidated View
+- Patient Details
+
+### 4. Charts & Formatting 
+- Cards
+- Bar + column charts
+- Line charts
+- Donut Charts
+- Matrix table
+- Filters
+
+### 10. Insights
+See: Key Findings
+- Patient wait time & Satisfaction
+- Admission and departmental referrals
+- Peak busy periods
+- Patient demographics
+- Race distribution
 
 ------------------------------------------------------
 
 ## Key Findings
+The emergency room dataset covers a period of 19 months (April 2023-October 2024) and records a total of 9,216 unique patients. 
 
+#### Patient Wait Time & Satisfaction 
+- Average wait time: approx. 35.3 min. Target is 30 min. 
+- Average satisfaction score: 4.99 out of 10.
+  - The average satisfaction score is notably low despite a moderate average wait time. This suggests other factors beyond wait time may contribute, e.g. communication during waiting, efficiency of triage process, perceived fairness in queue progression, staff behaviour, etc.
 
-## Limitations
+#### Admission and Departmental Referrals
+- Nearly half of the patients (4612) were admitted, while the rest (4604) were treated and released.
+- A significant number of patients (5400) did not require referrals.
+- Out of the referred patients, the most common were General Practice (1840) and Orthopedics (995 Cases), followed by Physiotherapy (276 Cases) and Cardiology (248 Cases).
+  - High referrals to GP may indicate triage redirecting non-emergency cases and ER misuse for primary care needs. 
+
+#### Peak busy periods
+- Busiest days: Saturday (1377 Patients), Thursday (1332 Patients), and Sunday (1318 Patients).
+- Busiest hours: 11-12 PM, 07-08 AM, 00-02 AM
+  - Busy late night / early morning period may suggest peak is driven by evening activities or alcohol-related cases. Saturday being the busiest day may also be due to weekend social activity or reduced access to GP services.
+  - This supports dynamic staffing models rather than fixed schedules. 
+
+#### Patient demographics
+- Adults (30 - 39 Years) formed a large group (1200 patients), followed by young adults (20 - 29 Years) with 1188, and children/teenagers (10 - 19 Years) with 1179 patients.
+- Young children (0-9) formed the smallest group with 1056 patients.
+- No significant differences between male (51.05%) and female (48.69%) patients.
+
+#### Race distribution
+- The largest racial group was White (2571), followed by African American (1951), multi racial (1557), and Asian (1060) patients.
+  - Without population-level data, it's unclear whether this reflects true utilisation patterns or over/under-representation.
+- A significant number of patients (1030) declined to identify their race.
+  - A large 'decline to identify' group may suggest discomfort with demographic questions or inconsistent data collection practices.
